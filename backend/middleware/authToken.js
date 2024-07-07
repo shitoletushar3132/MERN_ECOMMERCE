@@ -14,7 +14,6 @@ async function authToken(req, res, next) {
       if (err) {
         console.log(err);
       }
-      console.log("decode", decoded);
       if (err) {
         console.log("error Auth", err);
       }
