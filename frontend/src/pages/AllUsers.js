@@ -7,7 +7,13 @@ import React, { useEffect, useState } from "react";
 
 function AllUsers() {
   const [allUser, setAllUser] = useState([]);
-
+  const [openUpdateRole, setOneUpdateRole] = useState(false);
+  const [updateUserDetails, setUpdateUserDetials] = useState({
+    email: "",
+    name: "",
+    role: "",
+    _id: "",
+  });
   const fetchAllUsers = async () => {
     try {
       const fetchData = await fetch(summaryApi.allUser.url, {
@@ -35,7 +41,7 @@ function AllUsers() {
     <div className="bg-white pb-4">
       <table className="w-full userTable">
         <thead>
-          <tr>
+          <tr className="bg-black text-white">
             <th>Sr.</th>
             <th>Name</th>
             <th>Email</th>
@@ -53,7 +59,13 @@ function AllUsers() {
               <td>{el?.role}</td>
               <td>{moment(el?.createdAt).format("LL")}</td>
               <td>
-                <button className="bg-green-100 p-2 rounded-full cursor-pointer hover:bg-green-500 hover:text-white">
+                <button
+                  className="bg-green-100 p-2 rounded-full cursor-pointer hover:bg-green-500 hover:text-white"
+                  onClick={() => {
+                    setUpdateUserDetials(el);
+                    setOneUpdateRole(true);
+                  }}
+                >
                   <MdEdit />
                 </button>
               </td>
@@ -61,7 +73,16 @@ function AllUsers() {
           ))}
         </tbody>
       </table>
-      <ChangeUserRole />
+      {openUpdateRole && (
+        <ChangeUserRole
+          onClose={() => setOneUpdateRole(false)}
+          name={updateUserDetails.name}
+          email={updateUserDetails.email}
+          role={updateUserDetails.role}
+          userId={updateUserDetails._id}
+          callFunc={fetchAllUsers}
+        />
+      )}
     </div>
   );
 }
