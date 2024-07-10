@@ -13,17 +13,17 @@ async function updateUser(req, res) {
     };
 
     const user = await userModel.findById(sessionUser);
+    if (user.role === "ADMIN") {
+      const updateUser = await userModel.findByIdAndUpdate(userId, payload);
+      res.json({
+        data: updateUser,
+        message: "user Updated",
+        success: true,
+        error: false,
+      });
+    }
 
     console.log("user role", user.role);
-
-    const updateUser = await userModel.findByIdAndUpdate(userId, payload);
-
-    res.json({
-      data: updateUser,
-      message: "user Updated",
-      success: true,
-      error: false,
-    });
   } catch (error) {
     res.status(400).json({
       message: err.message || err,
