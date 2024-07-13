@@ -23,7 +23,7 @@ const CategoryList = () => {
     <div className="container mx-auto p-4">
       <div className="flex items-center gap-4 justify-between overflow-scroll scrollbar-none">
         {loading
-          ? categoryLoading.map((el, index) => {
+          ? categoryLoading.map((_, index) => {
               return (
                 <div
                   className="h-16 w-16 md:w-20 md:h-20 rounded-full overflow-hidden bg-slate-200 animate-pulse"
