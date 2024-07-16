@@ -15,7 +15,8 @@ const HorizontalCardProduct = ({ category, heading }) => {
   const { fetchUserAddToCart } = useContext(Context);
 
   const handleAddToCart = async (e, id) => {
-    await addToCart(e, id); fetchUserAddToCart();
+    await addToCart(e, id); 
+    fetchUserAddToCart();
   };
 
   const fetchData = async () => {
