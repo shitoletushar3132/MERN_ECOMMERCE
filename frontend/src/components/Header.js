@@ -53,7 +53,6 @@ function Header() {
     }
   };
 
-  console.log("user id", user?.data?._id);
 
   return (
     <header className="h-16 shadow-md bg-white fixed w-full z-40">

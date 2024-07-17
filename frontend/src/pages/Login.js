@@ -35,7 +35,6 @@ function Login() {
       });
 
       const dataApi = await dataResponse.json();
-      console.log("login response:", dataApi);
 
       if (dataApi.success) {
         toast.success(dataApi.message);
