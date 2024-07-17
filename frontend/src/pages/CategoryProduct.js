@@ -19,7 +19,7 @@ function CategoryProduct() {
   });
 
   const [selectCategory, setSelectCategory] = useState(urlCatergoryListObject);
-  const [filterCategoryList, setFilterCategoryList] = useState([]);
+  const [filterCategoryList, setFilterCategoryList] = useState([urlSearch]);
   const fetchData = async () => {
     const response = await fetch(summaryApi.filterProduct.url, {
       method: summaryApi.filterProduct.method,
@@ -90,8 +90,8 @@ function CategoryProduct() {
   return (
     <div className="container mx-auto p-3">
       {/* desktop version */}
-      <div className="hidden lg:grid grid-cols-[200px,1fr] overflow-y-scroll scrollbar-none">
-        <div className="bg-white p-2 min-h-[calc(100vh-120px)]">
+      <div className=" lg:grid grid-cols-[200px,1fr] overflow-y-scroll scrollbar-none">
+        <div className="hidden lg:block bg-white p-2 min-h-[calc(100vh-120px)]">
           <div className=" ">
             <h1 className="text-lg uppercase font-medium text-slate-500 border-b border-slate-300 pb-1">
               Sort by
@@ -133,7 +133,10 @@ function CategoryProduct() {
             <form className="text-sm flex flex-col gap-2 py-2">
               {productCategory.map((categoryName, index) => {
                 return (
-                  <div className="flex items-center gap-3" key={categoryName?.name+"hllo"+index}>
+                  <div
+                    className="flex items-center gap-3"
+                    key={categoryName?.name + "hllo" + index}
+                  >
                     <input
                       type="checkbox"
                       name={"category"}
@@ -151,14 +154,13 @@ function CategoryProduct() {
             </form>
           </div>
         </div>
-
         <div className="px-4">
           <p className="font-medium text-slate-800 text-lg my-2">
             Search Results : {data.length}
           </p>
           <div className="min-h-[calc(100vh-120px)] overflow-y-scroll max-h-[calc(100vh-120px)] scrollbar-none">
             {data.length !== 0 && !loading && (
-              <VerticalCard data={data} loading={loading}/>
+              <VerticalCard data={data} loading={loading} />
             )}
           </div>
         </div>

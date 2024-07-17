@@ -6,9 +6,15 @@ const router = require("./routes");
 const cookieParser = require("cookie-parser");
 
 const app = express();
+
+const allowedOrigins = [
+  process.env.FRONTEND_URL,
+  process.env.LOCAL_URL,
+];
+
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL,
+    origin: allowedOrigins,
     credentials: true,
   })
 );
