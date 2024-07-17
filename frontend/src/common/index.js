@@ -1,4 +1,4 @@
-const backendDomain = "http://localhost:8080";
+const backendDomain = "https://tushars-ecom.onrender.com";
 const summaryApi = {
   signUp: {
     url: `${backendDomain}/api/signup`,
