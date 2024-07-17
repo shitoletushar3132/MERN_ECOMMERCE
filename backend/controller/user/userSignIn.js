@@ -1,9 +1,11 @@
 const userModel = require("../../models/userModel");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+
 async function userSignInController(req, res) {
   try {
     const { email, password } = req.body;
+
     if (!email) {
       throw new Error("Please provide email");
     }
@@ -27,25 +29,26 @@ async function userSignInController(req, res) {
       };
 
       const token = await jwt.sign(tokenData, process.env.TOKEN_SECRET_KEY, {
-        expiresIn: 60 * 60 * 8,
+        expiresIn: "8h", // Better to use string for readability
       });
 
       const tokenOption = {
         httpOnly: true,
-        secure: true,
+        secure: process.env.NODE_ENV === "production", // Use secure only in production
+        sameSite: "None", // Necessary for cross-origin requests
       };
 
       res.cookie("token", token, tokenOption).status(200).json({
-        message: "login successfully",
+        message: "Login successfully",
         data: token,
         success: true,
         error: false,
       });
     } else {
-      throw new Error("Please Check Password");
+      throw new Error("Please check password");
     }
   } catch (err) {
-    res.json({
+    res.status(400).json({
       message: err.message || err,
       error: true,
       success: false,
