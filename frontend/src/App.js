@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import Context from "./context/index";
 import { useDispatch } from "react-redux";
 import { setUserDetails } from "./store/userSlice";
+
 function App() {
   const dispatch = useDispatch();
 
@@ -18,13 +19,15 @@ function App() {
     try {
       const dataResponse = await fetch(summaryApi.current_user.url, {
         method: summaryApi.current_user.method,
-        credentials: "include",
+        credentials: "include", // Ensure cookies are sent with the request
       });
 
       const dataApi = await dataResponse.json();
+      console.log("current user", dataApi);
 
       if (dataApi.success) {
         dispatch(setUserDetails(dataApi));
+        
       }
     } catch (error) {
       console.error("Error fetching user details:", error);
@@ -35,7 +38,7 @@ function App() {
     try {
       const dataResponse = await fetch(summaryApi.addToCartProductCount.url, {
         method: summaryApi.addToCartProductCount.method,
-        credentials: "include",
+        credentials: "include", // Ensure cookies are sent with the request
       });
 
       const dataApi = await dataResponse.json();
@@ -57,7 +60,7 @@ function App() {
     <Context.Provider
       value={{ fetchUserDetails, cartProductCount, fetchUserAddToCart }}
     >
-      <ToastContainer position="top-center"/>
+      <ToastContainer position="top-center" />
       <Header />
       <main className="min-h-[calc(100vh-120px)] pt-16">
         <Outlet />

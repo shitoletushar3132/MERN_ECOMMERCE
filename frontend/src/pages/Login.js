@@ -4,45 +4,51 @@ import { Link, useNavigate } from "react-router-dom";
 import summaryApi from "../common";
 import { toast } from "react-toastify";
 import Context from "../context";
+import { useDispatch } from "react-redux";
+import { setUserDetails } from "../store/userSlice";
 
 function Login() {
+  const dispatch = useDispatch();
   const [data, setData] = useState({ email: "", password: "" });
-
   const navigate = useNavigate();
-  const { fetchUserDetails,fetchUserAddToCart } = useContext(Context);
+  const { fetchUserDetails, fetchUserAddToCart } = useContext(Context);
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
-
-    setData((prev) => {
-      return {
-        ...prev,
-        [name]: value,
-      };
-    });
+    setData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
 
-    const dataResponse = await fetch(summaryApi.signIn.url, {
-      method: summaryApi.signIn.method,
-      credentials: "include",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
+    try {
+      const dataResponse = await fetch(summaryApi.signIn.url, {
+        method: summaryApi.signIn.method,
+        credentials: "include",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
 
-    const dataApi = await dataResponse.json();
-    if (dataApi.success) {
-      toast.success(dataApi.message);
-      navigate("/");
-      fetchUserDetails();
-      fetchUserAddToCart();
-    }
-    if (dataApi.error) {
-      toast.error(dataApi.message);
+      const dataApi = await dataResponse.json();
+      console.log("login response:", dataApi);
+
+      if (dataApi.success) {
+        toast.success(dataApi.message);
+        dispatch(setUserDetails(dataApi.user)); // Dispatch user details to Redux store
+        navigate("/");
+        fetchUserDetails();
+        fetchUserAddToCart();
+      } else if (dataApi.error) {
+        toast.error(dataApi.message);
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      toast.error("An error occurred. Please try again.");
     }
   };
 
@@ -71,7 +77,7 @@ function Login() {
 
             <div>
               <label>Password :</label>
-              <div className="bg-slate-200  p-2 flex">
+              <div className="bg-slate-200 p-2 flex">
                 <input
                   type="password"
                   placeholder="enter password"
@@ -85,7 +91,7 @@ function Login() {
                 to={"/forgot-password"}
                 className="block w-fit ml-auto hover:underline hover:text-red-600 "
               >
-                Forgot password ?
+                Forgot password?
               </Link>
             </div>
 
@@ -95,7 +101,7 @@ function Login() {
           </form>
 
           <p className="my-5 ">
-            Don't have account ?{" "}
+            Don't have an account?{" "}
             <Link
               to={"/sign-up"}
               className="text-red-600 hover:text-red-700 hover:underline"
