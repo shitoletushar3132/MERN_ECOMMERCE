@@ -52,7 +52,7 @@ function AllUsers() {
         </thead>
         <tbody>
           {allUser.map((el, index) => (
-            <tr key={el.id}>
+            <tr key={index}>
               <td>{index + 1}</td>
               <td>{el?.name}</td>
               <td>{el?.email}</td>

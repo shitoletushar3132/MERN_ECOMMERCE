@@ -54,7 +54,6 @@ const Cart = () => {
       const responseData = await response.json();
 
       if (responseData.success) {
-        console.log("success ", responseData.success); // Log response to check if update was successful
         fetchData();
       } else {
         console.error("Failed to update quantity:", responseData.message);
@@ -108,7 +107,6 @@ const Cart = () => {
       const responseData = await response.json();
 
       if (responseData.success) {
-        console.log("success ", responseData.success); // Log response to check if update was successful
         fetchData();
         context.fetchUserAddToCart();
       } else {

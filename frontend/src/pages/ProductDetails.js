@@ -1,11 +1,13 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { useCallback, useContext, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import summaryApi from "../common";
 import { FaStar } from "react-icons/fa";
 import { FaStarHalf } from "react-icons/fa";
 import displayINRCurrency from "../helpers/displayCurrency";
 import VerticalCardProduct from "../components/VerticalCardProduct";
 import CategoryWiseProductDisplay from "../components/CategoryWiseProductDisplay";
+import addToCart from "../helpers/addToCart";
+import Context from "../context";
 const ProductDetails = () => {
   const [data, setData] = useState({
     productName: "",
@@ -26,6 +28,8 @@ const ProductDetails = () => {
     y: 0,
   });
 
+  const { fetchUserAddToCart } = useContext(Context);
+  const navigate = useNavigate();
   const fetchProductDetails = async () => {
     setLoading(true);
     const response = await fetch(summaryApi.getProductDetails.url, {
@@ -44,7 +48,7 @@ const ProductDetails = () => {
   };
   useEffect(() => {
     fetchProductDetails();
-  }, []);
+  }, [params]);
 
   const handleMouseEnterProduct = (imageUrl) => {
     setActiveImage(imageUrl);
@@ -53,7 +57,6 @@ const ProductDetails = () => {
   const handleZoomImage = useCallback(
     (e) => {
       const { left, top, width, height } = e.target.getBoundingClientRect();
-      console.log("Coordinate", left, top, width, height);
       const x = (e.clientX - left) / width;
       const y = (e.clienty - top) / height;
 
@@ -64,6 +67,17 @@ const ProductDetails = () => {
     },
     [zoomImageCoordinate]
   );
+
+  const handleAddToCart = async (e, id) => {
+    await addToCart(e, id);
+    fetchUserAddToCart();
+  };
+
+  const handleBuyProduct = async (e, id) => {
+    await addToCart(e, id);
+    fetchUserAddToCart();
+    navigate("/cart");
+  };
 
   return (
     <div className="container mx-auto p-4">
@@ -165,18 +179,22 @@ const ProductDetails = () => {
               </div>
 
               <div className="flex items-center gap-3 my-2">
-                <button className="border-2 border-red-600 rounded px-3 py-1 min-w-[120px] text-red-600 font-medium hover:bg-red-600 hover:text-white">
+                <button
+                  className="border-2 border-red-600 rounded px-3 py-1 min-w-[120px] text-red-600 font-medium hover:bg-red-600 hover:text-white"
+                  onClick={(e) => handleBuyProduct(e, data?._id)}
+                >
                   Buy
                 </button>
-                <button className="border-2 border-red-600 rounded px-3 py-1 min-w-[120px] hover:text-red-600 hover:bg-white font-medium bg-red-600 text-white">
+                <button
+                  className="border-2 border-red-600 rounded px-3 py-1 min-w-[120px] hover:text-red-600 hover:bg-white font-medium bg-red-600 text-white"
+                  onClick={(e) => handleAddToCart(e, data?._id)}
+                >
                   Add To Cart
                 </button>
               </div>
 
               <div>
-                <p className="text-slate-600 font-medium my-1">
-                  Description :{" "}
-                </p>
+                <p className="text-slate-600 font-medium my-1">Description :</p>
                 <p>{data?.description}</p>
               </div>
             </div>
