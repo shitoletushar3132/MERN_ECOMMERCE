@@ -72,7 +72,11 @@ function BannerProduct() {
                 key={imageUrl + index}
                 style={{ transform: `translateX(-${currentImage * 100}%)` }}
               >
-                <img src={imageUrl} className="w-full h-full object-cover" />
+                <img
+                  src={imageUrl}
+                  alt={imageUrl}
+                  className="w-full h-full object-cover"
+                />
               </div>
             );
           })}
@@ -86,7 +90,11 @@ function BannerProduct() {
                 key={imageUrl + index}
                 style={{ transform: `translateX(-${currentImage * 100}%)` }}
               >
-                <img src={imageUrl} className="w-full h-full object-cover" />
+                <img
+                  src={imageUrl}
+                  alt={imageUrl}
+                  className="w-full h-full object-cover"
+                />
               </div>
             );
           })}

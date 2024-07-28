@@ -50,8 +50,6 @@ function App() {
 
   useEffect(() => {
     fetchUserDetails();
-
-    // user cart product
     fetchUserAddToCart();
   }, []);
 

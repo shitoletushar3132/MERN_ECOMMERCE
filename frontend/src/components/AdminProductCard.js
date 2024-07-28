@@ -11,7 +11,7 @@ function AdminProductCard({ data, index, fetchdata }) {
         <div className="w-32 h-32 flex justify-center items-center">
           <img
             src={data?.productImage[0]}
-            alt={`${data?.brandName} image`}
+            alt={`${data?.brandName}`}
             width={120}
             height={120}
             className="object-fill mx-auto h-full"
