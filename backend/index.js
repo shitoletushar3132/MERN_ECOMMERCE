@@ -10,6 +10,7 @@ const app = express();
 const allowedOrigins = [
   process.env.FRONTEND_URL,
   process.env.LOCAL_URL,
+  process.env.FRONTEND_URL2,
 ];
 
 app.use(

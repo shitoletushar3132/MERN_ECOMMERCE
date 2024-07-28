@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import productCategory from "../helpers/productCategory";
-import CategoryWiseProductDisplay from "../components/CategoryWiseProductDisplay";
 import VerticalCard from "../components/VerticalCard";
 import summaryApi from "../common";
 function CategoryProduct() {
