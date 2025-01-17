@@ -11,6 +11,7 @@ const allowedOrigins = [
   process.env.FRONTEND_URL,
   process.env.LOCAL_URL,
   process.env.FRONTEND_URL2,
+  process.env.DOMAIN_MY
 ];
 
 app.use(
